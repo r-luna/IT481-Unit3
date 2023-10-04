@@ -81,17 +81,17 @@ exports.up = function(knex) {
     table.string('ShipCountry', 15).notNullable();
   })
   .createTable('Products', function (table) {
-    table.increments('ProductID');
+    table.decimal('ProductID').notNullable();
     table.string('ProductName', 40).notNullable();
     table.decimal('SupplierID', 30).notNullable();
     table.decimal('CategoryID').notNullable();
     table.string('QuantityPerUnit', 20).notNullable();
-    table.string('ShippedDate').notNullable();
+    table.string('ShippedDate');
     table.decimal('UnitPrice', 15).notNullable();
     table.string('UnitsInStock', 5).notNullable();
     table.string('UnitsOnOrder', 5).notNullable();
     table.string('ReorderLevel', 5).notNullable();
-    table.boolean('Discontinued', 15).notNullable();
+    table.string('Discontinued', 15).notNullable();
   })
   .createTable('OrderDetails', function (table) {
     table.decimal('OrderID').notNullable();
