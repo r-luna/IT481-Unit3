@@ -51,18 +51,18 @@ exports.up = function(knex) {
     table.string('Phone', 24).notNullable();
   })
   .createTable('Suppliers', function (table) {
-    table.increments('SupplierID');
-    table.decimal('CompanyName', 40).notNullable();
+    table.string('SupplierID', 40).notNullable();
+    table.string('CompanyName', 40).notNullable();
     table.string('ContactName', 30).notNullable();
     table.string('ContactTitle', 30).notNullable();
     table.string('Address', 60).notNullable();
     table.string('City', 15).notNullable();
-    table.string('Region', 15).notNullable();
+    table.string('Region', 15);
     table.string('PostalCode', 10).notNullable();
     table.string('Country', 15).notNullable();
     table.string('Phone', 24).notNullable();
-    table.string('Fax', 24).notNullable();
-    table.string('HomePage', 255).notNullable();
+    table.string('Fax', 24);
+    table.string('HomePage', 255);
   })
   .createTable('Orders', function (table) {
     table.decimal('OrderID').notNullable();
