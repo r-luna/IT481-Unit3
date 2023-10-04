@@ -113,8 +113,9 @@ exports.up = function(knex) {
     table.string('RegionDescription', 250).notNullable();
   })
   .createTable('Territories', function (table) {
-    table.increments('TerritoryID');
+    table.string('TerritoryID', 12).notNullable();
     table.string('TerritoryDescription', 250).notNullable();
+    table.decimal('RegionID').notNullable();
   })
   .createTable('EmployeeTerritories', function (table) {
     table.string('EmployeeID');
