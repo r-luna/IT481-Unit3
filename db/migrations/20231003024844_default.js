@@ -32,17 +32,18 @@ exports.up = function(knex) {
         table.string('Picture').notNullable();
     })
     .createTable('Customers', function (table) {
-      table.increments('CustomerID');
+      table.increments('ID');
+      table.string('CustomerID', 40).unique().notNullable();
       table.string('CompanyName', 40).notNullable();
       table.string('ContactName', 30).notNullable();
       table.string('ContactTitle', 30).notNullable();
       table.string('Address', 60).notNullable();
       table.string('City', 15).notNullable();
-      table.string('Region', 15).notNullable();
+      table.string('Region', 15);
       table.string('PostalCode', 10).notNullable();
       table.string('Country', 15).notNullable();
       table.string('Phone', 24).notNullable();
-      table.string('Fax', 24).notNullable();
+      table.string('Fax', 24);
   })
   .createTable('Shippers', function (table) {
     table.increments('ShipperID');
