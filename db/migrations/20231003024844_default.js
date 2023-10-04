@@ -65,19 +65,19 @@ exports.up = function(knex) {
     table.string('HomePage', 255).notNullable();
   })
   .createTable('Orders', function (table) {
-    table.increments('OrderID');
-    table.decimal('CustomerID', 5).notNullable();
+    table.decimal('OrderID').notNullable();
+    table.string('CustomerID', 55).notNullable();
     table.string('EmployeeID', 30).notNullable();
-    table.date('OrderDate').notNullable();
-    table.date('RequiredDate').notNullable();
-    table.date('ShippedDate').notNullable();
+    table.string('OrderDate').notNullable();
+    table.string('RequiredDate').notNullable();
+    table.string('ShippedDate');
     table.string('ShipVia', 15).notNullable();
     table.decimal('Freight').notNullable();
     table.string('ShipName', 40).notNullable();
     table.string('ShipAddress', 60).notNullable();
     table.string('ShipCity', 15).notNullable();
-    table.string('ShipRegion', 15).notNullable();
-    table.string('ShipPostalCode', 10).notNullable();
+    table.string('ShipRegion', 15);
+    table.string('ShipPostalCode', 10);
     table.string('ShipCountry', 15).notNullable();
   })
   .createTable('Products', function (table) {
@@ -94,11 +94,11 @@ exports.up = function(knex) {
     table.boolean('Discontinued', 15).notNullable();
   })
   .createTable('OrderDetails', function (table) {
-    table.increments('OrderID');
+    table.decimal('OrderID').notNullable();
     table.decimal('ProductID').notNullable();
     table.decimal('UnitPrice').notNullable();
     table.decimal('Quantity').notNullable();
-    table.string('Discount', 20).notNullable();
+    table.string('Discount', 20);
   })
   .createTable('CustomerCustomerDemo', function (table) {
     table.increments('CustomerID');
