@@ -6,24 +6,24 @@ exports.up = function(knex) {
   return knex.schema
     .createTable('Employees', function (table) {
         table.increments('EmployeeID');
-        table.string('LastName', 20).notNullable();
-        table.string('FirstName', 10).notNullable();
-        table.string('Title', 30).notNullable();
+        table.string('LastName', 60).notNullable();
+        table.string('FirstName', 60).notNullable();
+        table.string('Title', 60).notNullable();
         table.string('TitleOfCourtesy', 25).notNullable();
         table.date('BirthDate').notNullable();
         table.date('HireDate').notNullable();
         table.string('Address', 60).notNullable();
-        table.string('City', 15).notNullable();
-        table.string('Region', 15).notNullable();
-        table.string('PostalCode', 10).notNullable();
-        table.string('Country', 15).notNullable();
+        table.string('City', 60).notNullable();
+        table.string('Region', 60).notNullable();
+        table.string('PostalCode', 10);
+        table.string('Country', 60).notNullable();
         table.string('HomePhone', 24).notNullable();
         table.decimal('Salary').notNullable();
-        table.string('Extension', 4).notNullable();
-        table.string('Photo', 15).notNullable();
-        table.string('Notes', 1500).notNullable();
-        table.string('ReportsTo', 15).notNullable();
-        table.string('PhotoPath', 155).notNullable();
+        table.string('Extension', 4);
+        table.string('Photo');
+        table.string('Notes', 2500);
+        table.string('ReportsTo', 60).notNullable();
+        table.string('PhotoPath', 2500);
     })
     .createTable('Categories', function (table) {
         table.increments('CategoryID');
@@ -40,7 +40,7 @@ exports.up = function(knex) {
       table.string('Address', 60).notNullable();
       table.string('City', 15).notNullable();
       table.string('Region', 15);
-      table.string('PostalCode', 10).notNullable();
+      table.string('PostalCode', 10);
       table.string('Country', 15).notNullable();
       table.string('Phone', 24).notNullable();
       table.string('Fax', 24);
@@ -117,8 +117,8 @@ exports.up = function(knex) {
     table.string('TerritoryDescription', 250).notNullable();
   })
   .createTable('EmployeeTerritories', function (table) {
-    table.increments('EmployeeID');
-    table.decimal('TerritoryID').notNullable();
+    table.string('EmployeeID');
+    table.string('TerritoryID').notNullable();
   });
 }
 
@@ -139,5 +139,6 @@ exports.down = function(knex) {
     .dropTable('CustomerCustomerDemo')
     .dropTable('CustomerDemographics')
     .dropTable('Region')
-    .dropTable('Territories');
+    .dropTable('Territories')
+    .dropTable('EmployeeTerritories');
 };
