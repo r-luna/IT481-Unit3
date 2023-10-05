@@ -19,3 +19,18 @@ body {
   background-color: #ffebcd;
   margin: 4px 0 12px 0;
 }
+
+.hide {
+  display: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.cell {
+  flex: 1;
+}
+.cell.small {
+  max-width: 25%;
+}
