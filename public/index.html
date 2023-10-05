@@ -16,16 +16,28 @@
         .catch(error => console.error(error));
       }
 
+      var getCustomerQuan = function() {
+        axios.get('http://localhost:3000/api/get/customerquan')
+        .then(response => {
+          populateCustomerQuan(response.data.totalRows);
+        })
+        .catch(error => console.error(error));
+      }
+
       var populateWithCustomers = function (data) {
         var tpl = '<tr><td>[NUM]</td><td>[DATA]</td></tr>';
-        var tpl2 = '<h3>There are<br>[DATA]<br>customers</h3>';
+        
         var content = '';
         for (var i = 0; i < data.length; i++){
           content += tpl.replace('[NUM]', i).replace('[DATA]', data[i].ContactName.split(' ')[1]);
         }
         document.querySelector('#container').innerHTML = content;
-        document.querySelector('#customerTotal').innerHTML = tpl2.replace('[DATA]', data.length);
 
+      }
+
+      var populateCustomerQuan = function(data) {
+        var tpl = '<h3>There are<br>[DATA]<br>customers</h3>';
+        document.querySelector('#customerTotal').innerHTML = tpl.replace('[DATA]', data);
       }
     </script>
   </head>
@@ -64,6 +76,7 @@
           <div class="col-sm-12">
             <!--button class="btn btn-primary" id="GetNumberOfCustomers" type="button">Get Number of Customers</!--button-->
             <button class="btn btn-primary" id="DisplayCustomerNames" type="button">Display Customer Names</button>
+            <button class="btn btn-primary" id="GetNumberOfCustomers" type="button">Get Total Customers</button>
           </div>
         </div>
       </div>
@@ -90,7 +103,7 @@
       var handler = function(e) {
         const id = e.target.id;
         if (id === 'GetNumberOfCustomers') {
-          alert('get number of customers')
+          getCustomerQuan();
         }
         if (id === 'DisplayCustomerNames') {
           getAllCustomers();
