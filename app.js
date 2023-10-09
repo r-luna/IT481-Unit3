@@ -1,13 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
-const cors = require('express'); // crosa origin resource sharing
+const cors = require('express'); // cross origin resource sharing
 const helmet = require('helmet'); // security for express apps
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var unit2Router = require('./routes/unit2');
+var apiRouter = require('./routes/api/v1');
 
 var app = express();
 
@@ -26,7 +26,7 @@ app.use(cors());
 app.use(helmet());
 
 app.use('/', indexRouter);
-app.use('/api/', unit2Router);
+app.use('/api/', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
