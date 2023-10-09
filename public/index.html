@@ -9,7 +9,7 @@
     <link href="/stylesheets/style.css" rel="stylesheet" />
     <script>
       var getAllCustomers = function() {
-        axios.get('http://localhost:3000/api/get/customers')
+        axios.get('http://localhost:3000/api/unit2/get/customers')
         .then(response => {
           populateWithCustomers(response.data);
         })
@@ -17,7 +17,7 @@
       }
 
       var getCustomerQuan = function() {
-        axios.get('http://localhost:3000/api/get/customerquan')
+        axios.get('http://localhost:3000/api/unit2/get/customerquan')
         .then(response => {
           populateCustomerQuan(response.data.totalRows);
         })
