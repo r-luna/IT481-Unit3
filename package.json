@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "open-cli http://localhost:3000 && node ./bin/www"
+    "start": "open-cli http://localhost:3000 && node ./bin/www",
+    "dev": "nodemon open-cli http://localhost:3000 && node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.1",
     "cookie-parser": "~1.4.4",
@@ -19,6 +21,10 @@
     "knex": "^2.5.1",
     "morgan": "~1.9.1",
     "open-cli": "^7.2.0",
+    "passport": "^0.6.0",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
