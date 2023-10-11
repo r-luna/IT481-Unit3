@@ -1,9 +1,9 @@
-const knex = require('../../../db/knex');
+const knex = require('../../../../db/knex');
 const express = require('express');
 const router = express.Router();
 
 // GET Customer data
-router.get('/get/customers', async function(req, res, next) {
+router.get('/customers', async function(req, res, next) {
   try {
 
     await knex.select().from('Customers').select('ContactName').then((customers) =>  { 
@@ -17,7 +17,7 @@ router.get('/get/customers', async function(req, res, next) {
 });
 
 // GET Customer total
-router.get('/get/customerquan', async function(req, res, next) {
+router.get('/customerquan', async function(req, res, next) {
   try {
 
     await knex.select().from('Customers').count('* as totalRows').first().then((totalObj) =>  { 
