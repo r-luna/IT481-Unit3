@@ -13,7 +13,8 @@ router.post('/', ( request, response ) => {
       return database('users')
         .insert({
             username: user.username,
-            password_hash: hashed_password
+            password_hash: hashed_password,
+            role: user.role
         }) 
         .returning('*')
         .then(users => {
