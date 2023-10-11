@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IT481 Luna</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link href="/stylesheets/style.css" rel="stylesheet" />
+    <script>
+
+      var showModal = function (titleTxt, contentTxt) {
+        var header = '<p>' + titleTxt + '</p>';
+        var content = '<p>' + contentTxt + '</p>';
+        document.querySelector('#modal-header').innerHTML = header;
+        document.querySelector('#modal-content').innerHTML = content;
+        myModal.show();
+      }
+
+      var createUser = function() {
+        var payload = {
+          user: {
+            username: document.querySelector('#username').value,
+            password: document.querySelector('#password').value
+          }
+        };
+        axios.post('http://localhost:3000/api/v1/user/create', payload)
+        .then(response => {
+          console.log(response);
+          showModal('Success','Success');
+        })
+        .catch(err => {
+          console.log(err);
+          showModal('Error', err.message);
+        });
+      }
+    </script>
+  </head>
+  <body id="body">
+    <!-- START MODAL -->
+    <div id="myModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modal-header" class="modal-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div id="modal-content" class="modal-body">
+            <!-- content here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
+    <!-- START PAGE TITLE -->
+    <div class="row">
+      <div class="col-sm-12">
+        <p><a href="/">Home</a> | Unit 3 Assignment - Create User<br></p>
+        <h1>IT481 Luna</h1>
+        <h2>Create User</h2>
+        <p><br></p>
+      </div>
+    </div>
+    <!-- END PAGE TITLE -->
+    <!-- START FORM -->
+    
+      <div class="container-sm">
+        <!-- SUBMIT -->
+        <form id="unit-6" class="form-horizontal"  onsubmit="return validate(event)"></form>
+          <div class="row row-v-margin">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="username">User Name</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter user name">
+              </div>
+            </div>
+          </div>
+          <div class="row row-v-margin">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" class="form-control" id="password" placeholder="Enter password">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row row-v-margin">
+          <div class="col-sm-4">
+            <button type="button" class="btn btn-primary" id="createUserBtn">Submit</button>
+          </div>
+        </div>
+      </div>
+
+    <!-- END FORM -->
+    <!-- ============= -->
+    <p><br></p>
+
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" 
+      crossorigin="anonymous">
+    </script>
+
+    <script>
+      var handler = function(e) {
+        const id = e.target.id;
+        console.log(id);
+        if (id === 'createUserBtn') {
+          createUser();
+        }
+      }
+      document.getElementById('body').addEventListener('click', function(e) { handler(e)});
+
+      var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+        keyboard: false
+      });
+
+      document.getElementById('body').addEventListener('hidden.bs.modal', function(e) {
+        document.querySelector('#modal-content').innerHTML = '';
+      });
+
+    </script>
+  </body>
+</html>

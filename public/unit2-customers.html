@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IT481 Luna</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link href="/stylesheets/style.css" rel="stylesheet" />
+    <script>
+      var getAllCustomers = function() {
+        axios.get('http://localhost:3000/api/v1/customer/customers')
+        .then(response => {
+          populateWithCustomers(response.data);
+        })
+        .catch(error => console.error(error));
+      }
+
+      var getCustomerQuan = function() {
+        axios.get('http://localhost:3000/api/v1/customer/customerquan')
+        .then(response => {
+          populateCustomerQuan(response.data.totalRows);
+        })
+        .catch(error => console.error(error));
+      }
+
+      var populateWithCustomers = function (data) {
+        var tpl = '<tr><td>[NUM]</td><td>[DATA]</td></tr>';
+        
+        var content = '';
+        for (var i = 0; i < data.length; i++){
+          content += tpl.replace('[NUM]', i).replace('[DATA]', data[i].ContactName.split(' ')[1]);
+        }
+        document.querySelector('#container').innerHTML = content;
+
+      }
+
+      var populateCustomerQuan = function(data) {
+        var tpl = '<h3>There are<br>[DATA]<br>customers</h3>';
+        document.querySelector('#customerTotal').innerHTML = tpl.replace('[DATA]', data);
+      }
+    </script>
+  </head>
+  <body id="body">
+    <!-- START MODAL -->
+    <div id="successModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Success</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>The form has been submitted.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
+    <!-- START PAGE TITLE -->
+    <div class="row">
+      <div class="col-sm-12">
+        <p><a href="/">Home</a> | Unit 2 Assignment<br></p>
+        <h1>IT481 Luna</h1>
+        <h2>Unit 2 Assignment - Show Customers and Customer Quantity</h2>
+        <p><br></p>
+      </div>
+    </div>
+    <!-- END PAGE TITLE -->
+    <form id="unit-6" class="form-horizontal"  onsubmit="return validate(event)">
+      <div class="container-sm">
+        <!-- SUBMIT -->
+        <div class="row row-v-margin">
+          <div class="col-sm-12">
+            <!--button class="btn btn-primary" id="GetNumberOfCustomers" type="button">Get Number of Customers</!--button-->
+            <button class="btn btn-primary" id="DisplayCustomerNames" type="button">Display Customer Names</button>
+            <button class="btn btn-primary" id="GetNumberOfCustomers" type="button">Get Total Customers</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- ============= -->
+    <p><br></p>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-4">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody id="container"></tbody>
+          </table>
+        </div>
+        <div class="col-2" id="customerTotal"> </div>
+      </div>
+    </div>
+    <script>
+      var handler = function(e) {
+        const id = e.target.id;
+        if (id === 'GetNumberOfCustomers') {
+          getCustomerQuan();
+        }
+        if (id === 'DisplayCustomerNames') {
+          getAllCustomers();
+        }
+      }
+      document.getElementById('body').addEventListener('click', function(e) { handler(e)});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
