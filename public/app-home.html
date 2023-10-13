@@ -120,6 +120,68 @@
         document.querySelector('#orderContainer').innerHTML = output;
       }
 
+      function getAllEmployees() {
+        var config = { 
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('IT481-token')
+          }
+        }
+        axios.get('http://localhost:3000/api/v1/employees/list', config)
+        .then(response => {
+          populateWithEmployees(response.data);
+        })
+        .catch(error => {
+          console.error(error.message);
+          showModal(error.code,error.message)
+        });
+      }
+
+      function populateWithEmployees(data){
+        var th = '<tr>' +
+          '<th>Employee ID</th>' +
+          '<th>Last Name</th>' +
+          '<th>First Name</th>' +
+          '<th>Title</th>' +
+          '<th>Birth Date</th>' +
+          '<th>Hire Date</th>' +
+          '<th>Address</th>' +
+          '<th>City</th>' +
+          '<th>Postal Code</th>' +
+          '<th>Country</th>' +
+          '<th>Salary</th>' +
+          '</tr>';
+        var tpl = '<tr>'+
+          '<td>%EmployeeID%</td>' +
+          '<td>%LastName%</td>' +
+          '<td>$%FirstName%</td>' +
+          '<td>%Title%</td>' +
+          '<td>%BirthDate%</td>' +
+          '<td>%HireDate%</td>' +
+          '<td>%Address%</td>' +
+          '<td>%City%</td>' +
+          '<td>%PostalCode%</td>' +
+          '<td>%Country%</td>' +
+          '<td>$%Salary%</td>' +
+          '</tr>';
+        var output = '';
+
+        for (var i=0;i < data.length;i++) {
+          output += tpl.replace('%EmployeeID%', data[i].EmployeeID)
+            .replace('%LastName%', data[i].LastName)
+            .replace('%FirstName%', data[i].FirstName)
+            .replace('%Title%', data[i].Title)
+            .replace('%BirthDate%', data[i].BirthDate)
+            .replace('%HireDate%', data[i].HireDate)
+            .replace('%Address%', data[i].Address)
+            .replace('%City%', data[i].City)
+            .replace('%PostalCode%', data[i].PostalCode)
+            .replace('%Country%', data[i].Country)
+            .replace('%Salary%', data[i].Salary);
+        }
+        document.querySelector('#tableHeader').innerHTML = th;
+        document.querySelector('#orderContainer').innerHTML = output;
+      }
+
     </script>
   </head>
   <body id="body">
@@ -157,27 +219,23 @@
     
     
       <div class="row row-v-margin">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="form-group">
             <p>"Sales" & "CEO" roles can do this</p>
             <button type="button" class="btn btn-primary btn-sm" id="customersBtn">Get Customers</button>
           </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="form-group">
             <p>"Sales" & "CEO" roles can do this</p>
             <button type="button" class="btn btn-primary btn-sm" id="ordersBtn">Get Orders</button>
           </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="form-group">
-            <p>"Edit" role can do this only</p>
-            <button type="button" class="btn btn-primary btn-sm" id="loginBtn">Get Products</button>
+            <p>"HR" & "CEO" roles can do this</p>
+            <button type="button" class="btn btn-primary btn-sm" id="employeesBtn">Get Employees</button>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <p>"Admin" roll can do this only</p>
-          <button type="button" class="btn btn-primary btn-sm" id="loginBtn">Get Regions</button>
         </div>
       </div>
       <div class="row row-v-margin results">
@@ -221,6 +279,9 @@
         }
         if (id === 'customersBtn') {
           getAllCustomers();
+        }
+        if (id === 'employeesBtn') {
+          getAllEmployees();
         }
 
       }
