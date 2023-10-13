@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IT481 Luna</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link href="/stylesheets/style.css" rel="stylesheet" />
+    <script>
+
+      var showModal = function (titleTxt, contentTxt) {
+        var header = '<p>' + titleTxt + '</p>';
+        var content = '<p>' + contentTxt + '</p>';
+        document.querySelector('#modal-header').innerHTML = header;
+        document.querySelector('#modal-content').innerHTML = content;
+        myModal.show();
+      }
+
+      var logout = function() {
+        localStorage.setItem('IT481-token','');
+        localStorage.setItem('IT481-user','');
+        localStorage.setItem('IT481-userrole','');
+        window.location.href = '/user-login.html';
+      }
+
+      var getAllOrders = function() {
+        var config = { 
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('IT481-token')
+          }
+        }
+        axios.get('http://localhost:3000/api/v1/orders/list', config)
+        .then(response => {
+          populateWithOrders(response.data);
+        })
+        .catch(error => {
+          console.error(error.message);
+          showModal(error.code,error.message)
+        });
+      }
+
+      var populateWithOrders = function (data) {
+        var th = '<tr>' +
+          '<th>Order ID</th>' +
+          '<th>Product ID</th>' +
+          '<th>Unit Price</th>' +
+          '<th>Quantity</th>' +
+          '<th>Discount</th>' +
+          '</tr>';
+        var tpl = '<tr>'+
+          '<td>%OrderID%</td>' +
+          '<td>%ProductID%</td>' +
+          '<td>$%UnitPrice%</td>' +
+          '<td>%Quantity%</td>' +
+          '<td>%Discount%</td>' +
+          '</tr>';
+        var output = '';
+
+        for (var i=0;i < data.length;i++) {
+          output += tpl.replace('%OrderID%', data[i].OrderID)
+            .replace('%ProductID%', data[i].ProductID)
+            .replace('%UnitPrice%', data[i].UnitPrice)
+            .replace('%Quantity%', data[i].Quantity)
+            .replace('%Discount%', data[i].Discount);
+        }
+        document.querySelector('#tableHeader').innerHTML = th;
+        document.querySelector('#orderContainer').innerHTML = output;
+      }
+
+      var getAllCustomers = function() {
+        var config = { 
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('IT481-token')
+          }
+        }
+        axios.get('http://localhost:3000/api/v1/customers/list', config)
+        .then(response => {
+          populateWithCustomers(response.data);
+        })
+        .catch(error => {
+          console.error(error.message);
+          showModal(error.code,error.message)
+        });
+      }
+
+      var populateWithCustomers = function (data) {
+        var th = '<tr>' +
+          '<th>Customer ID</th>' +
+          '<th>Company Name</th>' +
+          '<th>Contact Name</th>' +
+          '<th>Address</th>' +
+          '<th>City</th>' +
+          '<th>Postal Code</th>' +
+          '<th>Country</th>' +
+          '<th>Phone</th>' +
+          '</tr>';
+        var tpl = '<tr>'+
+          '<td>%CustomerID%</td>' +
+          '<td>%CompanyName%</td>' +
+          '<td>%ContactName%</td>' +
+          '<td>%Address%</td>' +
+          '<td>%City%</td>' +
+          '<td>%PostalCode%</td>' +
+          '<td>%Country%</td>' +
+          '<td>%Phone%</td>' +
+          '</tr>';
+        var output = '';
+        for (var i=0;i < data.length;i++) {
+          output += tpl.replace('%CustomerID%', data[i].CustomerID)
+            .replace('%CompanyName%', data[i].CompanyName)
+            .replace('%ContactName%', data[i].ContactName)
+            .replace('%Address%', data[i].Address)
+            .replace('%City%', data[i].City)
+            .replace('%PostalCode%', data[i].PostalCode)
+            .replace('%Country%', data[i].Country)
+            .replace('%Phone%', data[i].Phone);
+        }
+        document.querySelector('#tableHeader').innerHTML = th;
+        document.querySelector('#orderContainer').innerHTML = output;
+      }
+
+    </script>
+  </head>
+  <body id="body">
+    <!-- START MODAL -->
+    <div id="myModal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modal-header" class="modal-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div id="modal-content" class="modal-body">
+            <!-- content here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
+    <div class="container-sm">
+    <!-- START PAGE TITLE -->
+      <div class="row">
+        <div class="col-sm-12">
+          <p><a href="/">Home</a> | Unit 3 App Home<br></p>
+          <h1>IT481 Luna</h1>
+          <h6 id="subhead"></h6>
+          <button type="button" class="btn btn-outline-primary btn-sm" id="logoutBtn">Log out</button>
+          <p><br></p>
+        </div>
+      </div>
+    <!-- END PAGE TITLE -->
+    <!-- START FORM -->
+    
+    
+      <div class="row row-v-margin">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <p>"Sales" & "CEO" roles can do this</p>
+            <button type="button" class="btn btn-primary btn-sm" id="customersBtn">Get Customers</button>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <p>"Sales" & "CEO" roles can do this</p>
+            <button type="button" class="btn btn-primary btn-sm" id="ordersBtn">Get Orders</button>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <p>"Edit" role can do this only</p>
+            <button type="button" class="btn btn-primary btn-sm" id="loginBtn">Get Products</button>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <p>"Admin" roll can do this only</p>
+          <button type="button" class="btn btn-primary btn-sm" id="loginBtn">Get Regions</button>
+        </div>
+      </div>
+      <div class="row row-v-margin results">
+        <div id="orderlist" class="col-sm-12">
+          <table class="table table-striped">
+            <thead id="tableHeader" class="thead-dark"></thead>
+            <tbody id="orderContainer"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- END FORM -->
+    <!-- ============= -->
+    <p><br></p>
+
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" 
+      crossorigin="anonymous">
+    </script>
+
+    <script>
+      // get user info
+      (function(){
+          var name = localStorage.getItem('IT481-user');
+          var role = localStorage.getItem('IT481-userrole');
+          var token = localStorage.getItem('IT481-token');
+          if (token === null || token.length === 0) {
+            window.location.href = '/user-login.html';
+          }
+          document.querySelector('#subhead').innerHTML = 'You are logged in as <b>' + name + '</b> with role <b>"' + role + '"</b>';
+      })();
+
+      var handler = function(e) {
+        const id = e.target.id;
+        if (id === 'ordersBtn') {
+          getAllOrders();
+        }
+        if (id === 'logoutBtn') {
+          logout();
+        }
+        if (id === 'customersBtn') {
+          getAllCustomers();
+        }
+
+      }
+
+      document.getElementById('body').addEventListener('click', function(e) { handler(e)});
+
+      var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+        keyboard: false
+      });
+
+      document.getElementById('body').addEventListener('hidden.bs.modal', function(e) {
+        document.querySelector('#modal-content').innerHTML = '';
+      });
+
+    </script>
+  </body>
+</html>
